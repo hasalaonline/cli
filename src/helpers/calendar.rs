@@ -244,9 +244,10 @@ async fn handle_agenda(matches: &ArgMatches) -> Result<(), GwsError> {
         .map_err(|e| GwsError::Other(anyhow::anyhow!("Failed to list calendars: {e}")))?;
 
     if !list_resp.status().is_success() {
+        let status = list_resp.status();
         let err = list_resp.text().await.unwrap_or_default();
         return Err(GwsError::Api {
-            code: 0,
+            code: status.as_u16(),
             message: err,
             reason: "calendarList_failed".to_string(),
             enable_url: None,

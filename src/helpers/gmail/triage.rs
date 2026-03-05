@@ -51,9 +51,10 @@ pub async fn handle_triage(matches: &ArgMatches) -> Result<(), GwsError> {
         .map_err(|e| GwsError::Other(anyhow::anyhow!("Failed to list messages: {e}")))?;
 
     if !list_resp.status().is_success() {
+        let status = list_resp.status();
         let err = list_resp.text().await.unwrap_or_default();
         return Err(GwsError::Api {
-            code: 0,
+            code: status.as_u16(),
             message: err,
             reason: "list_failed".to_string(),
             enable_url: None,

@@ -235,7 +235,6 @@ fn build_read_request(
     config: &ReadConfig,
     doc: &crate::discovery::RestDescription,
 ) -> Result<(String, Vec<String>), GwsError> {
-    // ... resource lookup omitted for brevity ...
     let spreadsheets_res = doc
         .resources
         .get("spreadsheets")
